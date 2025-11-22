@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>دوري الشطرنج — نظام إدارة كامل</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="chess-piece">♚</div>
+
+<div class="container" id="page-main">
+  <div class="card header">
+    <h1>♔ دوري الشطرنج ♔</h1>
+    <div class="row">
+      <button onclick="enterAudience()">أنا من الجمهور</button>
+      <button class="secondary" onclick="enterOrganizer()">أنا من المنظمين</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>بطولة الشطرنج الكبرى</h3>
+    <div class="muted">
+      الشطرنج ليس مجرد لعبة، إنه فن وعلم واختبار للعقل
+    </div>
+  </div>
+</div>
+
+<div class="container hidden" id="page-login">
+  <div class="card header">
+    <h2>تسجيل دخول المنظم</h2>
+    <div class="row">
+      <input id="login-user" placeholder="user">
+      <input id="login-pass" placeholder="pass" type="password">
+      <button onclick="doLogin()">دخول</button>
+      <button class="ghost" onclick="goHome()">رجوع</button>
+    </div>
+    <div style="width:100%;font-size:14px;color:#9aa4bf;margin-top:8px">
+      الافتراضي: <b>admin</b> / <b>1234</b>
+    </div>
+  </div>
+</div>
+
+<div class="container hidden" id="page-audience">
+  <div class="card header">
+    <h2>♟ عرض جدول النتائج</h2>
+    <div class="row">
+      <button class="ghost" onclick="goHome()">الصفحة الرئيسية</button>
+    </div>
+  </div>
+
+  <div id="audience-groups"></div>
+  <div id="audience-brackets"></div>
+</div>
+
+<div class="container hidden" id="page-org">
+  <div class="card header">
+    <h2>لوحة المنظم</h2>
+    <div class="row">
+      <button class="ghost" onclick="goHome()">خروج</button>
+      <button class="danger" onclick="resetAll()">مسح الجميع</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>1) تسجيل اللاعبين</h3>
+    <div class="row">
+      <input id="player-input" placeholder="اسم اللاعب">
+      <button onclick="addPlayer()">إضافة لاعب</button>
+      <button class="secondary" onclick="runGroupsDraw()">🎲 قرعة وتقسيم المجموعات</button>
+    </div>
+    <div id="players-list" class="row" style="margin-top:10px"></div>
+  </div>
+
+  <div class="card">
+    <h3>2) المجموعات والجدول</h3>
+    <div id="org-groups"></div>
+  </div>
+
+  <div class="card">
+    <h3>3) الأدوار الإقصائية</h3>
+    <div class="row" style="margin-bottom:8px">
+      <button onclick="createKnockoutFromGroups()">إنشاء الدور الثاني</button>
+      <button class="secondary" onclick="advanceKnockout('R2','R3')">إنشاء الدور الثالث</button>
+      <button class="secondary" onclick="advanceKnockout('R3','SF')">إنشاء نصف النهائي</button>
+      <button class="secondary" onclick="advanceFinals()">النهائي + مباراة ثالث</button>
+    </div>
+    <div id="org-brackets"></div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

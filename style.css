@@ -1,0 +1,239 @@
+:root {
+  --bg1: #0a0a0a;
+  --bg2: #1a1a2e;
+  --accent: #e94560;
+  --cyan: #16213e;
+  --card: #0f3460cc;
+  --muted: #9aa4bf;
+  --success: #18d26e;
+  --danger: #e74c3c;
+  --radius: 14px;
+  --gold: #ffd700;
+  --silver: #c0c0c0;
+  --bronze: #cd7f32;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, Arial, sans-serif;
+  color: #fff;
+  background: radial-gradient(800px 400px at 10% 10%, #1a1a2e55, transparent 20%),
+              linear-gradient(135deg, var(--bg1), var(--bg2));
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 20px auto;
+  padding: 18px;
+}
+
+.card {
+  background: var(--card);
+  padding: 16px;
+  border-radius: var(--radius);
+  box-shadow: 0 10px 30px #00000055;
+  border: 1px solid #ffffff12;
+  margin-top: 12px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+button {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+button.ghost {
+  background: transparent;
+  border: 1px dashed #ffffff33;
+  color: #fff;
+}
+
+button.secondary {
+  background: #16213e;
+  color: #fff;
+}
+
+button.danger {
+  background: var(--danger);
+  color: #fff;
+}
+
+input,
+select {
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid #334278;
+  background: #0b1632;
+  color: #fff;
+  min-width: 120px;
+}
+
+.table {
+  overflow: auto;
+  margin-top: 12px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: center;
+  border-bottom: 1px solid #ffffff12;
+}
+
+thead th {
+  background: #0a1929;
+  position: sticky;
+  top: 0;
+}
+
+.pair {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  border-radius: 10px;
+  padding: 8px;
+  background: #081229;
+  border: 1px solid #ffffff10;
+  margin: 6px 0;
+}
+
+.vs {
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.bad {
+  color: var(--danger);
+}
+
+.ok {
+  color: var(--success);
+}
+
+.tag {
+  padding: 6px 10px;
+  background: #ffffff10;
+  border-radius: 999px;
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  margin: 4px;
+}
+
+.chess-piece {
+  width: 56px;
+  height: 56px;
+  position: fixed;
+  right: 12px;
+  bottom: 12px;
+  font-size: 48px;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(5deg);
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 35px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.card h3 {
+  text-align: center;
+  font-size: 30px;
+  margin-top: 0;
+}
+
+.card h4 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.rank-1 {
+  background: linear-gradient(135deg, #ffd70022, transparent);
+  border-left: 4px solid var(--gold);
+}
+
+.rank-2 {
+  background: linear-gradient(135deg, #c0c0c022, transparent);
+  border-left: 4px solid var(--silver);
+}
+
+.rank-3 {
+  background: linear-gradient(135deg, #cd7f3222, transparent);
+  border-left: 4px solid var(--bronze);
+}
+
+.result-win {
+  color: var(--success);
+  font-weight: bold;
+}
+
+.result-draw {
+  color: var(--muted);
+}
+
+.result-loss {
+  color: var(--danger);
+}
+
+details {
+  margin-top: 10px;
+  padding: 10px;
+  background: #00000033;
+  border-radius: 8px;
+}
+
+summary {
+  cursor: pointer;
+  font-weight: bold;
+  padding: 8px;
+}
