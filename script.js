@@ -407,6 +407,7 @@ function createKnockoutFromGroups() {
   });
   var pairs = [];
   
+  // حل المشكلة: التعامل مع الأعداد الفردية
   for (var i = 0; i < shuffled.length; i += 2) {
     if (shuffled[i + 1]) {
       pairs.push({
@@ -414,6 +415,15 @@ function createKnockoutFromGroups() {
         black: shuffled[i + 1],
         result: null,
         winner: null
+      });
+    } else {
+      // لو اللاعب الأخير لوحده (عدد فردي)، يتأهل تلقائياً للدور التالي
+      pairs.push({
+        white: shuffled[i],
+        black: '(تأهل مباشر)',
+        result: 1,
+        winner: shuffled[i],
+        autoAdvance: true
       });
     }
   }
@@ -449,13 +459,24 @@ function advanceKnockout(fromKey, toKey) {
   });
   var next = [];
   
+  // حل المشكلة: التعامل مع الأعداد الفردية
   for (var i = 0; i < shuffled.length; i += 2) {
     if (shuffled[i + 1]) {
+      // لو في خصم، اعمل مباراة عادية
       next.push({
         white: shuffled[i],
         black: shuffled[i + 1],
         result: null,
         winner: null
+      });
+    } else {
+      // لو اللاعب الأخير لوحده (عدد فردي)، يتأهل تلقائياً للدور التالي
+      next.push({
+        white: shuffled[i],
+        black: '(تأهل مباشر)',
+        result: 1,
+        winner: shuffled[i],
+        autoAdvance: true
       });
     }
   }
@@ -474,6 +495,12 @@ function advanceFinals() {
     return;
   }
   
+  // لازم يكون عندنا بالظبط 2 مباريات في نصف النهائي
+  if (sf.length !== 2) {
+    alert('نصف النهائي لازم يكون فيه مباراتين بالظبط');
+    return;
+  }
+  
   for (var i = 0; i < sf.length; i++) {
     if (!sf[i].winner) {
       alert('سجل نتائج نصف النهائي أولاً');
@@ -485,7 +512,12 @@ function advanceFinals() {
   var losers = [];
   for (var i = 0; i < sf.length; i++) {
     winners.push(sf[i].winner);
-    losers.push(sf[i].loser);
+    // نحدد الخاسر: اللي مش فائز
+    if (sf[i].winner === sf[i].white) {
+      losers.push(sf[i].black);
+    } else {
+      losers.push(sf[i].white);
+    }
   }
   
   state.knockout.F = [{
@@ -540,12 +572,19 @@ function renderBracketsOrg() {
       html += '<span>⚪ ' + p.white + '</span>';
       html += '<span class="vs">VS</span>';
       html += '<span>⚫ ' + p.black + '</span>';
-      html += '<select id="' + k + '-result-' + idx + '" style="width:150px">';
-      html += '<option value="">اختر النتيجة</option>';
-      html += '<option value="1"' + (p.result === 1 ? ' selected' : '') + '>فوز الأبيض</option>';
-      html += '<option value="0"' + (p.result === 0 ? ' selected' : '') + '>فوز الأسود</option>';
-      html += '</select>';
-      html += '<button onclick="saveBracketResult(\'' + k + '\',' + idx + ')">حفظ</button>';
+      
+      // لو تأهل مباشر، عرضه بدون select
+      if (p.autoAdvance) {
+        html += '<span class="ok" style="font-weight:bold">✓ تأهل مباشر</span>';
+      } else {
+        html += '<select id="' + k + '-result-' + idx + '" style="width:150px">';
+        html += '<option value="">اختر النتيجة</option>';
+        html += '<option value="1"' + (p.result === 1 ? ' selected' : '') + '>فوز الأبيض</option>';
+        html += '<option value="0"' + (p.result === 0 ? ' selected' : '') + '>فوز الأسود</option>';
+        html += '</select>';
+        html += '<button onclick="saveBracketResult(\'' + k + '\',' + idx + ')">حفظ</button>';
+      }
+      
       if (p.winner) {
         html += '<span class="ok">الفائز: ' + p.winner + '</span>';
       }
@@ -562,6 +601,13 @@ function saveBracketResult(stage, idx) {
   if (!list) return;
   
   var p = list[idx];
+  
+  // لو تأهل مباشر، متعملش حاجة
+  if (p.autoAdvance) {
+    alert('هذا اللاعب متأهل مباشرة');
+    return;
+  }
+  
   var resultValue = document.getElementById(stage + '-result-' + idx).value;
   
   if (resultValue === '') {
